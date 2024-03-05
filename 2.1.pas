@@ -44,9 +44,9 @@ var
   NewNode: PNode;
 begin
   New(NewNode);
-  NewNode^._Word   := NewWord;
+  NewNode^._Word := NewWord;
   NewNode^.Counter := 1;
-  NewNode^.Next    := nil;
+  NewNode^.Next := nil;
   Result := NewNode;
 end;
 
@@ -63,13 +63,13 @@ end;
 procedure AddFirst(var Head: PNode; NewNode: PNode);
 begin
   NewNode^.Next := Head;
-  Head          := NewNode;
+  Head := NewNode;
 end;
 
 procedure AddAfter(p, NewNode: PNode);
 begin
   NewNode^.Next := p^.Next;
-  p^.Next       := NewNode;
+  p^.Next := NewNode;
 end;
 
 procedure AddBefore(var Head: PNode; p, NewNode: PNode);
