@@ -1,60 +1,56 @@
-const
-  MAXSIZE = 20;
-
-type PNode = ^Node;
-     Node = record
-       data: integer;
-       next: PNode;
-     end;
-type Queue = record
-       head, tail: PNode;
+const MAXSIZE = 50;
+type Stack = record  { стек рассчитан на 50 символов }
+      tags: array[1..MAXSIZE] of integer;
+      size: integer; { число элементов }
      end;
 
-procedure Push( var Q: Queue; x: integer );
-var NewNode: PNode;
+procedure Push( var S: Stack; x: integer);
 begin
-  New(NewNode);
-  NewNode^.data := x;
-  NewNode^.next := Q.head;
-  Q.head := newNode;
+  if S.size = MAXSIZE then Exit;  // выход, если произошло переполнение стека
+  S.size := S.size + 1;
+  S.tags[S.size] := x; // добавляем элемент
 end;
 
-function Pop ( var Q: Queue ): integer;
-var top: PNode;
+function Pop (var S: Stack): integer;
 begin
-  if Q.head = nil then begin
-    Result := MaxInt;
+  if S.size = 0 then begin
+    Result := 0;
     Exit;
   end;
-  top := Q.head;
-  Result := top^.data;
-  Q.head := top^.next;
-  if Q.head = nil then Q.tail := nil;
-  Dispose(top);
+  Result := S.tags[S.size];
+  S.size := S.size - 1;
+end;
+
+function isEmptyStack (S: Stack): Boolean;
+begin
+  Result := (S.size = 0);
 end;
 
 var
   input, output: text;
   x: integer;
-  Q: Queue;
+  S: Stack;
 
 begin
-  Assign(input, 'C:\Users\dmitr\OneDrive\Документы\chisla vxod.txt');
-  Assign(output, 'C:\Users\dmitr\OneDrive\Документы\chisla vyxod.txt');
+  
+  S.size := 0;
+  
+  Assign(input, 'V:\chisla vxod.txt');
+  Assign(output, 'V:\chisla vyxod.txt');
   Reset(input);
   Rewrite(output);
   
-  Q.head := nil;
-  Q.tail := nil;
-  
   while not EOF(input) do begin
     Readln(input, x);
-    Push(Q, x);
+    Push(S, x);
   end;
   
-  While (Q.head <> nil) do
-    writeln(output, Pop(q));
-  
+  If isEmptyStack(S) then writeln('Стек пуст')
+  Else
+  Begin
+  While (S.size > 0) do
+    writeln(output, Pop(s));
+  end;
   Close(input);
   Close(output);
 end.
